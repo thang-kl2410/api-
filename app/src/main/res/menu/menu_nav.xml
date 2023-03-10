@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:title="Tin nhắn"
+        android:icon="@drawable/chat"
+        android:id="@+id/act_chat"
+        />
+    <item android:title="Danh bạ"
+        android:icon="@drawable/phonebook"
+        android:id="@+id/act_phonebook"
+        />
+    <item android:title="Khám phá"
+        android:icon="@drawable/collection"
+        android:id="@+id/act_disc"
+        />
+    <item android:title="Nhật kí"
+        android:icon="@drawable/clock"
+        android:id="@+id/act_note"
+        />
+    <item android:title="Cá nhân"
+        android:icon="@drawable/profile"
+        android:id="@+id/act_prof"
+        />
+</menu>

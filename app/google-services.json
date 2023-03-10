@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "526594569092",
+    "project_id": "zalofakemss",
+    "storage_bucket": "zalofakemss.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:526594569092:android:d8c309d6f372acb973a3d1",
+        "android_client_info": {
+          "package_name": "com.example.phakezalo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "526594569092-dmpmv45l64bf1ie0evthlhgo529a8g3d.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBnSi4hz6WZnIRlLi62hlAoDXHCNI223TA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "526594569092-dmpmv45l64bf1ie0evthlhgo529a8g3d.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
