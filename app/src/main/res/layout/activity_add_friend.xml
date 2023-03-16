@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".theme.ui.activities.AddFriendActivity"
-    android:background="@color/white">
+    android:background="@drawable/bg_nothing">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout"
@@ -50,7 +50,7 @@
         app:layout_constraintTop_toTopOf="parent">
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/avatarImg"
-            android:src="@drawable/user"
+            android:src="@drawable/github"
             android:layout_width="120dp"
             android:layout_height="120dp"
             android:layout_gravity="center"
@@ -62,6 +62,7 @@
             android:layout_marginTop="30dp"
             android:textColorHint="@color/white"
             android:paddingHorizontal="10dp"
+            android:singleLine="true"
             android:hint="Enter the name"
             android:background="@drawable/bg_edt"
             />

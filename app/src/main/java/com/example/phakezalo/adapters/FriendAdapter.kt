@@ -3,33 +3,32 @@ package com.example.phakezalo.adapters
 import android.util.Log
 import android.view.ContextMenu
 import android.view.LayoutInflater
-import android.view.Menu
 import android.view.MenuInflater
-import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.bumptech.glide.Glide
-import com.example.phakezalo.OnClick
 import com.example.phakezalo.R
 import com.example.phakezalo.models.Friend
-import com.squareup.picasso.Picasso
+import com.example.phakezalo.viewModels.MessageViewModel
 import de.hdodenhof.circleimageview.CircleImageView
 
-class FriendAdapters(private var listFriend:List<Friend>, private val onClick:OnClick): RecyclerView.Adapter<FriendAdapters.Holder>() {
+class FriendAdapter(private var listFriend:List<Friend>,
+                    private var messageViewModel: MessageViewModel,
+                     private val onClick:(Friend) -> Unit
+                     ): RecyclerView.Adapter<FriendAdapter.Holder>() {
     var selectedItemPosition: Int = -1
 
     inner class Holder(item: View):ViewHolder(item), View.OnCreateContextMenuListener {
         val avatar:CircleImageView = item.findViewById(R.id.avatar)
         val nameTV:TextView = item.findViewById(R.id.nameTV)
+        val messageLatest:TextView = item.findViewById(R.id.endMssTV)
+        val textTime:TextView = item.findViewById(R.id.textTime)
 
         init {
             item.setOnCreateContextMenuListener(this)
-            item.setOnClickListener {
-                onClick.setOnClickListener(adapterPosition)
-            }
         }
 
         override fun onCreateContextMenu(
@@ -59,8 +58,29 @@ class FriendAdapters(private var listFriend:List<Friend>, private val onClick:On
         Glide.with(holder.itemView.context).load(listFriend[position].avatar).into(holder.avatar)
         holder.nameTV.text = listFriend[position].name
 
-        holder.itemView.setOnClickListener {
-            onClick.setOnClickListener(position)
+        try{
+            messageViewModel.getEndMessage(listFriend[position].id.toString()) { endMessage ->
+                holder.textTime.text = endMessage.time.toString()
+                if (endMessage.type == "text") {
+                    holder.messageLatest.text = endMessage.message.toString()
+                } else if (endMessage.type == "image") {
+                    holder.messageLatest.text = "[Hình ảnh]"
+                }
+            }
+        } catch (e:Exception){
+            Log.i("Firebase: ", e.toString())
+        } finally {
+            holder.messageLatest.text = ""
+            holder.textTime.text = ""
         }
+
+        holder.itemView.setOnClickListener {
+            onClick(listFriend[position])
+        }
+    }
+
+    fun setData(data: List<Friend>) {
+        this.listFriend = data
+        notifyDataSetChanged()
     }
 }

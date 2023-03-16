@@ -13,10 +13,9 @@ import android.view.View
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
-import com.example.phakezalo.OnClick
 import com.example.phakezalo.R
 import com.example.phakezalo.adapters.MessageAdapter
-import com.example.phakezalo.database.viewModels.MessageViewModel
+import com.example.phakezalo.viewModels.MessageViewModel
 import com.example.phakezalo.databinding.ActivityChatBinding
 import com.example.phakezalo.models.Message
 import com.google.firebase.database.DatabaseReference
@@ -39,7 +38,7 @@ class ChatActivity : AppCompatActivity() {
     private lateinit var dbRef: DatabaseReference
     private lateinit var messages:ArrayList<Message>
     private lateinit var adapter: MessageAdapter
-    private lateinit var viewModel:MessageViewModel
+    private lateinit var viewModel: MessageViewModel
     private var storage = Firebase.storage
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -79,12 +78,7 @@ class ChatActivity : AppCompatActivity() {
             getMessages()
         }
 
-        binding.chatRecycler.adapter = MessageAdapter(messages, intent.getStringExtra("avatar").toString(),object :
-            OnClick {
-            override fun setOnClickListener(position: Int) {
-                zoomImage(messages[position])
-            }
-        })
+        binding.chatRecycler.adapter = MessageAdapter(messages, intent.getStringExtra("avatar").toString(),onClick)
 
         registerForContextMenu(binding.sendIMG)
         binding.sendIMG.setOnClickListener {
@@ -96,6 +90,9 @@ class ChatActivity : AppCompatActivity() {
         }
     }
 
+    private val onClick:(Message) -> Unit = {
+        zoomImage(it)
+    }
     private fun zoomImage(image:Message) {
         val intent = Intent(this@ChatActivity, ImageActivity::class.java)
         intent.putExtra("image", image.message)
@@ -163,11 +160,7 @@ class ChatActivity : AppCompatActivity() {
 
     private fun getMessages() {
         viewModel.getMessages(intent.getStringExtra("id").toString()) { messages ->
-            adapter = MessageAdapter(messages, intent.getStringExtra("avatar").toString(),object : OnClick {
-                override fun setOnClickListener(position: Int) {
-                    zoomImage(messages[position])
-                }
-            })
+            adapter = MessageAdapter(messages, intent.getStringExtra("avatar").toString(),onClick)
             binding.chatRecycler.adapter = adapter
         }
     }

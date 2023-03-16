@@ -8,7 +8,7 @@ import com.example.phakezalo.databinding.ActivityMainBinding
 import com.example.phakezalo.theme.ui.fragments.DiscoverFragment
 import com.example.phakezalo.theme.ui.fragments.FriendFragment
 import com.example.phakezalo.theme.ui.fragments.NoteFragment
-import com.example.phakezalo.theme.ui.fragments.PersonalFragment
+import com.example.phakezalo.theme.ui.fragments.InfoFragment
 import com.example.phakezalo.theme.ui.fragments.PhonebookFragment
 
 class MainActivity : AppCompatActivity() {
@@ -41,7 +41,7 @@ class MainActivity : AppCompatActivity() {
                     true
                 }
                 R.id.act_prof -> {
-                    replaceFragment(PersonalFragment())
+                    replaceFragment(InfoFragment())
                     true
                 }
                 else -> {

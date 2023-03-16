@@ -1,14 +1,16 @@
 package com.example.phakezalo.theme.ui.activities
 
 import android.app.Activity
+import android.app.ProgressDialog
 import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
-import com.example.phakezalo.database.viewModels.FriendViewModel
+import com.example.phakezalo.viewModels.FriendViewModel
 import com.example.phakezalo.databinding.ActivityAddFriendBinding
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
@@ -23,9 +25,9 @@ class AddFriendActivity : AppCompatActivity() {
     }
     private lateinit var binding: ActivityAddFriendBinding
 
-    private lateinit var viewModel:FriendViewModel
+    private lateinit var viewModel: FriendViewModel
+    private lateinit var dialog:ProgressDialog
 
-    private var storage = Firebase.storage
     private var uri: Uri? = null
 
 
@@ -33,8 +35,6 @@ class AddFriendActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityAddFriendBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        storage = FirebaseStorage.getInstance()
 
         viewModel = ViewModelProvider(this)[FriendViewModel::class.java]
 
@@ -44,9 +44,15 @@ class AddFriendActivity : AppCompatActivity() {
             }
 
             addFriendBTN.setOnClickListener {
-                CoroutineScope(Dispatchers.Main).launch {
-                    insertFriend()
+                dialog = ProgressDialog(this@AddFriendActivity)
+                viewModel.isLoading().observe(this@AddFriendActivity) {
+                    if (it) {
+                        dialog.show()
+                    } else {
+                        dialog.dismiss()
+                    }
                 }
+                insertFriend()
             }
 
             imageViewBack.setOnClickListener {

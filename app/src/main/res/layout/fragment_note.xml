@@ -61,9 +61,13 @@
             app:layout_constraintTop_toTopOf="parent"
             app:tint="@color/white" />
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/chatRecycler"
+    <TextView
+        android:background="@drawable/bg_nothing"
+        android:text="COMING SOON"
+        android:textColor="@color/black"
+        android:gravity="center"
+        android:textStyle="bold"
+        android:textSize="30dp"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"

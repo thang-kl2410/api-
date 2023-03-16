@@ -1,6 +1,8 @@
 package com.example.phakezalo.adapters
 
+import android.view.ContextMenu
 import android.view.LayoutInflater
+import android.view.MenuInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
@@ -8,18 +10,23 @@ import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.phakezalo.OnClick
 import com.example.phakezalo.R
 import com.example.phakezalo.models.Message
 import de.hdodenhof.circleimageview.CircleImageView
 
-class MessageAdapter(private val messages:List<Message>, private val avatar:String, private val onClick: OnClick): RecyclerView.Adapter<MessageAdapter.Holder>() {
+class MessageAdapter(private val messages:List<Message>, private val avatar:String, private val onClick:(Message) -> Unit): RecyclerView.Adapter<MessageAdapter.Holder>() {
+    var selectedItemPosition: Int = -1
     inner class Holder(item:View):RecyclerView.ViewHolder(item){
         val message:TextView = item.findViewById(R.id.messageTV)
         val time:TextView = item.findViewById(R.id.timeSendTV)
         val imageContainer:CardView = item.findViewById(R.id.containerImage)
         val image:ImageView = item.findViewById(R.id.imageMss)
         val avatar:CircleImageView = item.findViewById(R.id.circleImageView)
+
+        init {
+            //item.setOnCreateContextMenuListener(this)
+        }
+
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
@@ -39,6 +46,17 @@ class MessageAdapter(private val messages:List<Message>, private val avatar:Stri
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
         Glide.with(holder.itemView.context).load(avatar).into(holder.avatar)
+        holder.avatar.visibility = View.GONE
+        if(position>=0){
+            if(messages[position].isSend == false){
+                holder.avatar.visibility = View.VISIBLE
+                if(messages[position+1].isSend == false){
+                    holder.avatar.visibility = View.GONE
+                }
+            } else{
+                holder.avatar.visibility = View.GONE
+            }
+        }
         if(messages[position].type.toString() == "text"){
             holder.message.visibility = View.VISIBLE
             holder.time.visibility = View.VISIBLE
@@ -51,8 +69,8 @@ class MessageAdapter(private val messages:List<Message>, private val avatar:Stri
             holder.time.visibility = View.GONE
             holder.imageContainer.visibility = View.VISIBLE
 
-            holder.itemView.setOnClickListener {
-                onClick.setOnClickListener(position)
+            holder.imageContainer.setOnClickListener {
+                onClick(messages[position])
             }
         }
     }

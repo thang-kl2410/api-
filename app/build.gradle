@@ -56,19 +56,13 @@ dependencies {
     implementation 'com.github.bumptech.glide:glide:4.14.2'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.14.2'
 
-    //picasso
-    implementation 'com.squareup.picasso:picasso:2.8'
-
     //realtime database
+    implementation 'com.google.firebase:firebase-database:20.0.0'
     implementation platform('com.google.firebase:firebase-bom:31.2.2')
     implementation 'com.google.firebase:firebase-database-ktx'
 
     //cloud storage
     implementation platform('com.google.firebase:firebase-bom:31.2.2')
     implementation 'com.google.firebase:firebase-storage-ktx'
-
-    //coroutines
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.5.0"
 
 }

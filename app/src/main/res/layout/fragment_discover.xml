@@ -53,6 +53,7 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <TextView
+        android:background="@drawable/bg_nothing"
         android:text="COMING SOON"
         android:textColor="@color/black"
         android:gravity="center"
