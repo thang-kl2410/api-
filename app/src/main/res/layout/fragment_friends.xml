@@ -28,6 +28,7 @@
             app:tint="@color/white" />
 
         <TextView
+            android:id="@+id/searchTV"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:gravity="center_vertical"
@@ -43,37 +44,43 @@
             android:id="@+id/imageView3"
             android:layout_width="55dp"
             android:layout_height="0dp"
-            android:padding="9dp"
-            android:src="@drawable/image"
+            android:padding="15dp"
+            android:src="@drawable/qr"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/imageBell"
+            app:layout_constraintEnd_toStartOf="@+id/imageViewAdd"
             app:layout_constraintTop_toTopOf="parent"
             app:tint="@color/white" />
 
         <ImageView
-            android:id="@+id/imageBell"
+            android:id="@+id/imageViewAdd"
             android:layout_width="55dp"
             android:layout_height="0dp"
-            android:padding="8dp"
-            android:src="@drawable/bell"
+            android:padding="15dp"
+            android:src="@drawable/plus"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:tint="@color/white" />
     </androidx.constraintlayout.widget.ConstraintLayout>
-    <TextView
-        android:background="@drawable/bg_nothing"
-        android:text="COMING SOON"
-        android:textColor="@color/black"
-        android:gravity="center"
-        android:textStyle="bold"
-        android:textSize="30dp"
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/chatRecycler"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />
+
+    <ProgressBar
+        android:id="@+id/isLoading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout"
+        />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

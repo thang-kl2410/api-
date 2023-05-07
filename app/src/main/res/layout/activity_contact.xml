@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".theme.ui.activities.ContactActivity"
+    tools:context=".ui.activities.ContactActivity"
     android:background="@drawable/bg_nothing">
 
     <ImageView
@@ -281,7 +281,7 @@
     <de.hdodenhof.circleimageview.CircleImageView
         android:layout_width="120dp"
         android:layout_height="120dp"
-        android:src="@drawable/my_avatar"
+        android:src="@drawable/github"
         android:layout_marginBottom="-60dp"
         app:layout_constraintBottom_toTopOf="@+id/constraintLayout3"
         app:layout_constraintEnd_toEndOf="parent"

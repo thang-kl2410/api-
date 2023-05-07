@@ -1,4 +1,4 @@
-package com.example.phakezalo.theme.ui.activities
+package com.example.phakezalo.ui.activities
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -6,36 +6,37 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
-import android.view.inputmethod.EditorInfo
-import android.widget.ArrayAdapter
-import android.widget.ProgressBar
 import android.widget.Toast
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.phakezalo.adapters.FriendAdapter
+import com.example.phakezalo.ui.adapters.FriendAdapter
 import com.example.phakezalo.databinding.ActivitySearchBinding
 import com.example.phakezalo.models.Friend
 import com.example.phakezalo.viewModels.FriendViewModel
 import com.example.phakezalo.viewModels.MessageViewModel
+import javax.inject.Inject
+import com.example.phakezalo.di.DaggerFriendComponent
+import com.example.phakezalo.di.DaggerMessageComponent
 
 class SearchActivity : AppCompatActivity() {
     private lateinit var binding:ActivitySearchBinding
-    private lateinit var isLoading: ProgressBar
     private var friends:ArrayList<Friend> = arrayListOf()
-    private lateinit var adapter:FriendAdapter
-    // Khai báo biến filteredData chứa kết quả tìm kiếm
+    private lateinit var adapter: FriendAdapter
     val filteredData: MutableList<Friend> = mutableListOf()
-    private val viewModel: FriendViewModel by lazy {
-        ViewModelProvider(this@SearchActivity)[FriendViewModel::class.java]
-    }
 
-    private val messageViewModel: MessageViewModel by lazy {
-        ViewModelProvider(this@SearchActivity)[MessageViewModel::class.java]
-    }
+    @Inject
+    lateinit var viewModel: FriendViewModel
+
+    @Inject
+    lateinit var messageViewModel:MessageViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivitySearchBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        val component = DaggerFriendComponent.create()
+        component.inject(this@SearchActivity)
+        val messageComponent = DaggerMessageComponent.create()
+        messageComponent.inject(this@SearchActivity)
 
         binding.backIMG.setOnClickListener {
             finish()

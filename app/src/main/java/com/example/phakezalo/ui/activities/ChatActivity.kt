@@ -1,6 +1,7 @@
-package com.example.phakezalo.theme.ui.activities
+package com.example.phakezalo.ui.activities
 
 import android.app.Activity
+import android.app.AlertDialog
 import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
@@ -8,48 +9,51 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.ContextMenu
+import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
-import com.example.phakezalo.R
-import com.example.phakezalo.adapters.MessageAdapter
+import com.example.phakezalo.ui.adapters.MessageAdapter
 import com.example.phakezalo.viewModels.MessageViewModel
-import com.example.phakezalo.databinding.ActivityChatBinding
 import com.example.phakezalo.models.Message
+import com.example.phakezalo.R
+import com.example.phakezalo.databinding.ActivityChatBinding
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.ktx.storage
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.Date
+import javax.inject.Inject
+import com.example.phakezalo.di.DaggerMessageComponent
 
-class ChatActivity : AppCompatActivity() {
-    companion object{
-        private const val request_code = 1
-    }
+class ChatActivity : AppCompatActivity(), MessageAdapter.OnItemLongClickListener {
     private var uri: Uri? = null
     private lateinit var binding: ActivityChatBinding
     private lateinit var dbRef: DatabaseReference
     private lateinit var messages:ArrayList<Message>
     private lateinit var adapter: MessageAdapter
-    private lateinit var viewModel: MessageViewModel
     private var storage = Firebase.storage
+
+    @Inject
+    lateinit var viewModel:MessageViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityChatBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        val component = DaggerMessageComponent.create()
+        component.inject(this@ChatActivity)
+
         dbRef = FirebaseDatabase.getInstance().getReference("Friends")
-        viewModel = ViewModelProvider(this)[MessageViewModel::class.java]
         binding.nameFrTV.text = intent.getStringExtra("name").toString()
         storage = FirebaseStorage.getInstance()
+
+        registerForContextMenu(binding.chatRecycler)
 
         binding.imageViewBack.setOnClickListener{
             finish()
@@ -73,26 +77,28 @@ class ChatActivity : AppCompatActivity() {
             reverseLayout = true
             stackFromEnd = false
         }
+
         messages = arrayListOf()
-        CoroutineScope(Dispatchers.Main).launch {
-            getMessages()
-        }
+        getMessages()
 
-        binding.chatRecycler.adapter = MessageAdapter(messages, intent.getStringExtra("avatar").toString(),onClick)
-
+        binding.chatRecycler.adapter = MessageAdapter(messages, intent.getStringExtra("avatar").toString(),onClick, this)
+0
         registerForContextMenu(binding.sendIMG)
         binding.sendIMG.setOnClickListener {
-            it.showContextMenu()
+            it.showContextMenu(0f, 0f)
         }
 
         binding.imageIMG.setOnClickListener {
             getImageFromDevice()
         }
+
+        binding.chatRecycler
     }
 
     private val onClick:(Message) -> Unit = {
         zoomImage(it)
     }
+
     private fun zoomImage(image:Message) {
         val intent = Intent(this@ChatActivity, ImageActivity::class.java)
         intent.putExtra("image", image.message)
@@ -115,7 +121,11 @@ class ChatActivity : AppCompatActivity() {
 
     override fun onCreateContextMenu(menu: ContextMenu?, v: View?, menuInfo: ContextMenu.ContextMenuInfo?) {
         super.onCreateContextMenu(menu, v, menuInfo)
-        menuInflater.inflate(R.menu.context_send,menu)
+        if (v == binding.sendIMG) {
+            menu?.setHeaderTitle("Send or Receive")
+            menu?.add(Menu.NONE, R.id.send_context, Menu.NONE, "Send")
+            menu?.add(Menu.NONE, R.id.receive_context, Menu.NONE, "Receive")
+        }
     }
 
     override fun onContextItemSelected(item: MenuItem): Boolean {
@@ -126,20 +136,36 @@ class ChatActivity : AppCompatActivity() {
             R.id.receive_context ->{
                 sendMessage(false)
             }
+            R.id.context_remove ->{
+                removeMessage()
+            }
         }
         return super.onContextItemSelected(item)
+    }
+
+    private fun removeMessage(){
+        val builder = AlertDialog.Builder(this@ChatActivity)
+        builder.setTitle("Confirm")
+        builder.setMessage("Bạn có muốn xóa?")
+        builder.setPositiveButton("YES"){ _, _ ->
+            viewModel.removeMessage(intent.getStringExtra("id").toString(), messages[adapter.selectedItemPosition].id.toString())
+        }
+        builder.setNegativeButton("NO"){ _, _ ->
+        }
+        val dialog = builder.create()
+        dialog.show()
     }
 
     private fun getImageFromDevice(){
         val intent = Intent()
         intent.type = "image/*"
         intent.action = Intent.ACTION_GET_CONTENT
-        startActivityForResult(Intent.createChooser(intent, "get picture"), request_code)
+        startActivityForResult(Intent.createChooser(intent, "get picture"), 1)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == request_code && resultCode == Activity.RESULT_OK){
+        if (requestCode == 1 && resultCode == Activity.RESULT_OK){
             if(data == null) return
             uri = data.data
             binding.imageContainer.visibility = View.VISIBLE
@@ -159,8 +185,9 @@ class ChatActivity : AppCompatActivity() {
     }
 
     private fun getMessages() {
-        viewModel.getMessages(intent.getStringExtra("id").toString()) { messages ->
-            adapter = MessageAdapter(messages, intent.getStringExtra("avatar").toString(),onClick)
+        viewModel.getMessages(intent.getStringExtra("id").toString()) {
+            messages = it
+            adapter = MessageAdapter(it, intent.getStringExtra("avatar").toString(),onClick, this)
             binding.chatRecycler.adapter = adapter
         }
     }
@@ -169,16 +196,16 @@ class ChatActivity : AppCompatActivity() {
         if (uri == null) {
             return
         }
-        //tải lên hình ảnh vào Firebase Storage
+
         val storageRef = storage.getReference("Images").child("${System.currentTimeMillis()}")
         storageRef.putFile(uri!!)
             .addOnSuccessListener {
-                storageRef.downloadUrl.addOnSuccessListener { uri ->
-                    val imageUri = uri.toString()
+                storageRef.downloadUrl.addOnSuccessListener { url ->
+                    val imageUrl = uri.toString()
                     val date = Date()
                     val dateFormat = SimpleDateFormat("HH:mm")
                     val time = dateFormat.format(date)
-                    viewModel.sendMessage(isSend, imageUri, intent.getStringExtra("id").toString(),time,"image")
+                    viewModel.sendMessage(isSend, imageUrl, intent.getStringExtra("id").toString(),time,"image")
                     binding.messageET.text.clear()
                 }
             }
@@ -201,5 +228,9 @@ class ChatActivity : AppCompatActivity() {
         } else {
             sendImage(isSend)
         }
+    }
+
+    override fun onLongClick(view: View, position: Int) {
+        binding.chatRecycler.showContextMenuForChild(view, 0f,0f)
     }
 }

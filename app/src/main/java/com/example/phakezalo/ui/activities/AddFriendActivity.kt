@@ -1,31 +1,25 @@
-package com.example.phakezalo.theme.ui.activities
+package com.example.phakezalo.ui.activities
 
-import android.app.Activity
 import android.app.ProgressDialog
 import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
+import android.util.Log
 import android.widget.Toast
-import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.example.phakezalo.viewModels.FriendViewModel
 import com.example.phakezalo.databinding.ActivityAddFriendBinding
-import com.google.firebase.ktx.Firebase
-import com.google.firebase.storage.FirebaseStorage
-import com.google.firebase.storage.ktx.storage
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import javax.inject.Inject
+import com.example.phakezalo.di.DaggerFriendComponent
 
 class AddFriendActivity : AppCompatActivity() {
-    companion object{
-        private val request_code = 1
-    }
     private lateinit var binding: ActivityAddFriendBinding
 
-    private lateinit var viewModel: FriendViewModel
+    @Inject
+    lateinit var viewModel: FriendViewModel
+
+
     private lateinit var dialog:ProgressDialog
 
     private var uri: Uri? = null
@@ -36,7 +30,8 @@ class AddFriendActivity : AppCompatActivity() {
         binding = ActivityAddFriendBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        viewModel = ViewModelProvider(this)[FriendViewModel::class.java]
+        val component = DaggerFriendComponent.create()
+        component.inject(this@AddFriendActivity)
 
         binding.apply {
             avatarImg.setOnClickListener {
@@ -65,12 +60,12 @@ class AddFriendActivity : AppCompatActivity() {
         val intent = Intent()
         intent.type = "image/*"
         intent.action = Intent.ACTION_GET_CONTENT
-        startActivityForResult(Intent.createChooser(intent, "get picture"), request_code)
+        startActivityForResult(Intent.createChooser(intent, "get picture"), 1)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == request_code && resultCode == Activity.RESULT_OK){
+        if (requestCode == 1 && resultCode == RESULT_OK){
             if(data == null) return
             uri = data.data
             Glide.with(this).load(uri).into(binding.avatarImg)
@@ -79,7 +74,11 @@ class AddFriendActivity : AppCompatActivity() {
 
     private fun insertFriend(){
         if(uri != null){
-            viewModel.insertFriend(binding.friendNameET.text.toString(), uri!!)
+            try{
+                viewModel.insertFriend(binding.friendNameET.text.toString(), uri!!)
+            } catch (e:Exception){
+                Log.i("Error when inserting:", e.toString())
+            }
             finish()
         } else {
             Toast.makeText(this@AddFriendActivity, "Bạn chưa chọn hình ảnh làm avatar", Toast.LENGTH_SHORT).show()

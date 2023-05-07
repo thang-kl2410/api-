@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".theme.ui.fragments.FriendFragment"
+    tools:context=".ui.activities.MyCloudActivity"
     android:background="@color/white">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -21,42 +21,18 @@
             android:layout_width="55dp"
             android:layout_height="0dp"
             android:padding="15dp"
-            android:src="@drawable/search"
+            android:src="@drawable/back"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:tint="@color/white" />
 
-        <TextView
-            android:id="@+id/searchTV"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:gravity="center_vertical"
-            android:text="Tìm kiếm"
-            android:textColor="@color/white"
-            android:textSize="15dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/imageView3"
-            app:layout_constraintStart_toEndOf="@+id/imageView"
-            app:layout_constraintTop_toTopOf="parent" />
-
         <ImageView
-            android:id="@+id/imageView3"
+            android:id="@+id/imageViewOption"
             android:layout_width="55dp"
             android:layout_height="0dp"
-            android:padding="15dp"
-            android:src="@drawable/qr"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/imageViewAdd"
-            app:layout_constraintTop_toTopOf="parent"
-            app:tint="@color/white" />
-
-        <ImageView
-            android:id="@+id/imageViewAdd"
-            android:layout_width="55dp"
-            android:layout_height="0dp"
-            android:padding="15dp"
-            android:src="@drawable/plus"
+            android:padding="10dp"
+            android:src="@drawable/more_options"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -64,23 +40,12 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/chatRecycler"
+        android:id="@+id/friendRecycler"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />
-
-    <ProgressBar
-        android:id="@+id/isLoading"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/constraintLayout"
-        />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

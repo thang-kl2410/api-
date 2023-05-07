@@ -1,9 +1,8 @@
-package com.example.phakezalo.theme.ui.activities
+package com.example.phakezalo.ui.activities
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.bumptech.glide.Glide
-import com.example.phakezalo.R
 import com.example.phakezalo.databinding.ActivityImageBinding
 
 class ImageActivity : AppCompatActivity() {

@@ -1,10 +1,9 @@
-package com.example.phakezalo.theme.ui.activities
+package com.example.phakezalo.ui.activities
 
 import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.example.phakezalo.R
 import com.example.phakezalo.databinding.ActivityContactBinding
 
 class ContactActivity : AppCompatActivity() {

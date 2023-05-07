@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -16,25 +16,28 @@
         android:theme="@style/Theme.AppCompat.NoActionBar"
         tools:targetApi="31">
         <activity
-            android:name=".theme.ui.activities.ContactActivity"
+            android:name=".ui.activities.MyCloudActivity"
             android:exported="false" />
         <activity
-            android:name=".theme.ui.activities.SearchActivity"
+            android:name=".ui.activities.ContactActivity"
             android:exported="false" />
         <activity
-            android:name=".theme.ui.activities.ImageActivity"
+            android:name=".ui.activities.SearchActivity"
             android:exported="false" />
         <activity
-            android:name=".theme.ui.activities.ChatActivity"
+            android:name=".ui.activities.ImageActivity"
             android:exported="false" />
         <activity
-            android:name=".theme.ui.activities.UpdateActivity"
+            android:name=".ui.activities.ChatActivity"
             android:exported="false" />
         <activity
-            android:name=".theme.ui.activities.AddFriendActivity"
+            android:name=".ui.activities.UpdateActivity"
             android:exported="false" />
         <activity
-            android:name=".theme.ui.activities.MainActivity"
+            android:name=".ui.activities.AddFriendActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.activities.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

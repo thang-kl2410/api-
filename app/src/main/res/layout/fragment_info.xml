@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".theme.ui.fragments.FriendFragment"
+    tools:context=".ui.fragments.InfoFragment"
     android:background="#efeff0"
     android:orientation="vertical">
 
@@ -67,7 +67,7 @@
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:layout_margin="15dp"
-            android:src="@drawable/my_avatar"
+            android:src="@drawable/github"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -146,6 +146,7 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/myCloudContainer"
         android:layout_marginTop="6dp"
         android:layout_width="match_parent"
         android:layout_height="65dp"

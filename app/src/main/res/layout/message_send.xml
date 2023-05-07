@@ -25,17 +25,23 @@
         android:layout_height="wrap_content"
         android:background = "@drawable/mess_bg"
         android:maxWidth="300dp"
-        android:minWidth="50dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:paddingVertical="12dp"
-        android:paddingHorizontal="10dp">
+        android:paddingEnd="8dp"
+        android:paddingBottom="4dp"
+        android:paddingStart="12dp"
+        android:paddingTop="8dp"
+        android:layout_marginRight="10dp">
 
         <TextView
             android:id="@+id/messageTV"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxWidth="280dp"
+            android:minWidth="60dp"
+            android:maxLines="30"
             android:text="Message"
             android:textColor="@color/black"
             android:textSize="14dp"
@@ -52,6 +58,42 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/messageTV" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/containerLove"
+        android:layout_width="23dp"
+        android:layout_height="23dp"
+        android:layout_marginTop="-10dp"
+        android:layout_marginRight="7dp"
+        android:src="@drawable/love"
+        android:tint="@color/grey"
+        app:layout_constraintEnd_toEndOf="@+id/containerImage"
+        app:layout_constraintTop_toBottomOf="@+id/containerImage"
+        android:elevation = "5dp"/>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/containerShare"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:src="@drawable/share"
+        android:layout_marginRight="5dp"
+        android:background="@drawable/bg_share"
+        app:layout_constraintBottom_toBottomOf="@+id/containerImage"
+        app:layout_constraintEnd_toStartOf="@+id/containerImage"
+        app:layout_constraintTop_toTopOf="@+id/containerImage">
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/share"
+            android:tint="@color/grey"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:backgroundTint="@color/grey"
+            />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.cardview.widget.CardView
@@ -62,17 +104,27 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:visibility="gone"
+        android:layout_marginRight="10dp"
+        android:elevation = "2dp"
         >
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            />
-        <ImageView
-            android:id="@+id/imageMss"
-            android:layout_width="220dp"
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            >
+            <ImageView
+                android:id="@+id/imageMss"
+                android:layout_width="220dp"
+                android:layout_height="wrap_content"
+                android:src="@color/white"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

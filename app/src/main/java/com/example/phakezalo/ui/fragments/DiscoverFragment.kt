@@ -1,4 +1,4 @@
-package com.example.phakezalo.theme.ui.fragments
+package com.example.phakezalo.ui.fragments
 
 import androidx.fragment.app.Fragment
 import com.example.phakezalo.R

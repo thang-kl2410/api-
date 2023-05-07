@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".theme.ui.activities.AddFriendActivity"
+    tools:context=".ui.activities.AddFriendActivity"
     android:background="@drawable/bg_nothing">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -60,7 +60,8 @@
             android:layout_width="250dp"
             android:layout_height="35dp"
             android:layout_marginTop="30dp"
-            android:textColorHint="@color/white"
+            android:textColorHint="@color/gray"
+            android:textColor="@color/black"
             android:paddingHorizontal="10dp"
             android:singleLine="true"
             android:hint="Enter the name"

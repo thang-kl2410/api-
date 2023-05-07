@@ -1,4 +1,4 @@
-package com.example.phakezalo.adapters
+package com.example.phakezalo.ui.adapters
 
 import android.util.Log
 import android.view.ContextMenu
@@ -39,7 +39,7 @@ class FriendAdapter(private var listFriend:List<Friend>,
             val inflater = MenuInflater(v.context)
             inflater.inflate(R.menu.context_friend, menu)
 
-            // Lưu lại vị trí của item được chọn và cập nhật lại giao diện
+            // Lưu lại vị trí của item được chọn
             selectedItemPosition = bindingAdapterPosition
             v.isSelected = true
         }
@@ -81,6 +81,5 @@ class FriendAdapter(private var listFriend:List<Friend>,
 
     fun setData(data: List<Friend>) {
         this.listFriend = data
-        notifyDataSetChanged()
     }
 }
